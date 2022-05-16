@@ -8,7 +8,7 @@ import (
 func main() {
 	fmt.Println("main started")
 
-	ch := genPrimes(3, 5*time.Second)
+	ch := genPrimes(3, 7*time.Second)
 	/* get the prime numbers and print them */
 	for primeNo := range ch {
 		fmt.Println("Prime No :", primeNo)
@@ -20,14 +20,28 @@ func main() {
 func genPrimes(start int, d time.Duration) <-chan int {
 	/* keep generating the prime numbers starting from  "start" for the duration "d' */
 	ch := make(chan int)
+	timeOutCh := timeout(d)
+	no := start
 	go func() {
-		no := start
+
+	LOOP:
 		for {
-			if isPrime(no) {
-				time.Sleep(500 * time.Millisecond)
-				ch <- no
+			if !isPrime(no) {
+				no++
+				select {
+				case <-timeOutCh:
+					break LOOP
+				default:
+					continue LOOP
+				}
 			}
-			no++
+			select {
+			case ch <- no:
+				time.Sleep(500 * time.Millisecond)
+				no++
+			case <-timeOutCh:
+				break LOOP
+			}
 		}
 		close(ch)
 	}()
@@ -41,4 +55,13 @@ func isPrime(no int) bool {
 		}
 	}
 	return true
+}
+
+func timeout(d time.Duration) chan time.Time {
+	ch := make(chan time.Time)
+	go func() {
+		time.Sleep(d)
+		ch <- time.Now()
+	}()
+	return ch
 }
