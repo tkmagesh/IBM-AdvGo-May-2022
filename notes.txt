@@ -12,3 +12,9 @@ About You
     Total Experience
     Experience in Go
     Have you attended my "Go Basics" course?
+
+Methodology:
+    No powerpoint
+
+Repository:
+    https://github.com/tkmagesh/ibm-advgo-may-2022
