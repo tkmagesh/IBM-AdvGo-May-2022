@@ -2,16 +2,20 @@ package main
 
 import (
 	"fmt"
+	"sync"
 	"time"
 )
 
 func main() {
 	ch1, ch2 := make(chan int), make(chan int)
 	mainCh := make(chan int)
+	wg := &sync.WaitGroup{}
+	wg.Add(1)
 	go func() {
-		time.Sleep(1 * time.Second)
+		//time.Sleep(1 * time.Second)
 		val := <-mainCh
 		fmt.Println(val)
+		wg.Done()
 	}()
 	go f1(ch1)
 	go f2(ch2)
@@ -23,10 +27,11 @@ func main() {
 			fmt.Println(value1)
 		case value2 := <-ch2:
 			fmt.Println(value2)
-			/* default:
-			fmt.Println("No channel operations were successful") */
+		default:
+			fmt.Println("No channel operations were successful")
 		}
 	}
+	wg.Wait()
 }
 
 func f1(ch chan int) {
