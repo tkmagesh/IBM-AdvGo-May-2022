@@ -1,28 +1,35 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"time"
+)
 
 func main() {
 	fmt.Println("main started")
-	ch := make(chan int)
-	count := 10
-	go genPrimes(3, count, ch)
+
+	ch := genPrimes(3, 100)
 	/* get the prime numbers and print them */
-	for i := 0; i < count; i++ {
-		fmt.Println("Prime No :", <-ch)
+	for primeNo := range ch {
+		fmt.Println("Prime No :", primeNo)
 	}
+
 	fmt.Println("main completed")
 }
 
-func genPrimes(start, count int, ch chan int) {
+func genPrimes(start, end int) chan int {
 	/* keep generating the "count" number of prime numbers starting from  "start" */
-	for count > 0 {
-		if isPrime(start) {
-			ch <- start
-			count--
+	ch := make(chan int)
+	go func() {
+		for no := start; no <= end; no++ {
+			if isPrime(no) {
+				time.Sleep(500 * time.Millisecond)
+				ch <- no
+			}
 		}
-		start++
-	}
+		close(ch)
+	}()
+	return ch
 }
 
 func isPrime(no int) bool {

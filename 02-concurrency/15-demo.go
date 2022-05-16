@@ -4,9 +4,8 @@ import "fmt"
 
 func main() {
 	fmt.Println("main started")
-	ch := make(chan int)
 	count := 10
-	go genPrimes(3, count, ch)
+	ch := genPrimes(3, count)
 	/* get the prime numbers and print them */
 	for i := 0; i < count; i++ {
 		fmt.Println("Prime No :", <-ch)
@@ -14,15 +13,19 @@ func main() {
 	fmt.Println("main completed")
 }
 
-func genPrimes(start, count int, ch chan int) {
+func genPrimes(start, count int) chan int {
 	/* keep generating the "count" number of prime numbers starting from  "start" */
-	for count > 0 {
-		if isPrime(start) {
-			ch <- start
-			count--
+	ch := make(chan int)
+	go func() {
+		for count > 0 {
+			if isPrime(start) {
+				ch <- start
+				count--
+			}
+			start++
 		}
-		start++
-	}
+	}()
+	return ch
 }
 
 func isPrime(no int) bool {
