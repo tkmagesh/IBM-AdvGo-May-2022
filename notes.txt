@@ -46,3 +46,24 @@ Concurrency
 
     To detect data races
         go run --race <program.go>
+
+    Channel
+        Data type in go
+        Used for concurrency safe communication between goroutines
+
+        var ch chan int
+        ch = make(chan int)
+
+        channel operation ( <- )
+
+        Send Operation
+            ch <- 100
+
+        Receive Operation
+            val := <- ch
+
+    
+    Channels
+        A "Receive" operation is ALWAYS blocking operation
+
+        A "Send" operation is blocked until a "receive" operation is initiated

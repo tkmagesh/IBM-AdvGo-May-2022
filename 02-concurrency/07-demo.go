@@ -23,7 +23,6 @@ func main() {
 	}
 	for i := 1; i <= count; i++ {
 		wg.Add(1)
-
 		go f1(i) //scheduling f1 to execute through the scheduler
 	}
 	f2()
