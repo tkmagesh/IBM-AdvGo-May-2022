@@ -17,7 +17,7 @@ func main() {
 	fmt.Println("main completed")
 }
 
-func genPrimes(start, end int) chan int {
+func genPrimes(start, end int) <-chan int {
 	/* keep generating the "count" number of prime numbers starting from  "start" */
 	ch := make(chan int)
 	go func() {
