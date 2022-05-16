@@ -40,4 +40,9 @@ Go:
 Higher Order Functions (functions as data)
     Assign functions as values to variables
     Pass functions as arguments
-    Return functions as results from functions
+    Return unctions as results from functions
+
+Concurrency
+
+    To detect data races
+        go run --race <program.go>
