@@ -82,7 +82,19 @@ func main() {
 	subtractWithLog(100, 200)
 }
 
+/*
 func getLogOperation(oper func(int, int)) func(int, int) {
+	return func(x, y int) {
+		fmt.Println("invocation started")
+		oper(x, y)
+		fmt.Println("invocation completed")
+	}
+}
+*/
+
+type OperationType func(int, int)
+
+func getLogOperation(oper OperationType) OperationType {
 	return func(x, y int) {
 		fmt.Println("invocation started")
 		oper(x, y)
