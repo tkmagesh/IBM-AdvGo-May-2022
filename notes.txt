@@ -18,3 +18,26 @@ Methodology:
 
 Repository:
     https://github.com/tkmagesh/ibm-advgo-may-2022
+
+Basics:
+    Higher-order functions
+    
+    Consumption or resources
+    Is OOPS supported?
+    Using 3rd party libraries
+    Code Organization
+    Concurrency
+
+Go:
+    No classes (only structs)
+    No inheritance (only composition)
+    No access modifiers (only naming convention)
+    No exceptions (only errors)
+    No reference types (everything is a value in go)
+    No implicity type conversions
+    There can be more than one return results from a function
+
+Higher Order Functions (functions as data)
+    Assign functions as values to variables
+    Pass functions as arguments
+    Return functions as results from functions
