@@ -62,7 +62,7 @@ func main() {
 
 	*/
 
-	p, err := pool.New(DBConnectionFactory(), 5)
+	p, err := pool.New(DBConnectionFactory, 5)
 
 	if err != nil {
 		log.Fatalln(err)
