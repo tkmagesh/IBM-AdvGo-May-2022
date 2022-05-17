@@ -25,5 +25,5 @@ func main() {
 	}
 	fmt.Println("All tasks are assigned")
 	w.Shutdown()
-	w.Run(MyWork{id: 100}) //SHOULD NOT BE ALLOWED as the worker is already "Shutdown"
+	//w.Run(MyWork{id: 100}) //SHOULD NOT BE ALLOWED as the worker is already "Shutdown"
 }
