@@ -39,7 +39,6 @@ func (s *server) SignIn(con *proto.Connect, stream proto.Broadcast_SignInServer)
 }
 
 func (s *server) BroadcastMessage(ctx context.Context, message *proto.Message) (*proto.Close, error) {
-
 	wg := &sync.WaitGroup{}
 	for _, conn := range s.Connections {
 		wg.Add(1)
