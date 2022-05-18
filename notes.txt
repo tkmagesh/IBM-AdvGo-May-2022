@@ -118,4 +118,6 @@ gRPC
     To install the dependencies
         go mod tidy
 
+
+Build a console based chat application using gRPC
     

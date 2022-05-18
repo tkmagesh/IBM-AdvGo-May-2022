@@ -22,12 +22,16 @@ func main() {
 	}
 	service := proto.NewAppServiceClient(clientConn)
 	ctx := context.Background()
-
-	//doRequestResponse(ctx, service)
-	//doServerStreaming(ctx, service)
-	//doClientStreaming(ctx, service)
-	//doBiDiStreaming(ctx, service)
-	doRequestResponseWithTimeout(ctx, service)
+	var input string
+	doRequestResponse(ctx, service)
+	fmt.Scanln(&input)
+	doServerStreaming(ctx, service)
+	fmt.Scanln(&input)
+	doClientStreaming(ctx, service)
+	fmt.Scanln(&input)
+	doBiDiStreaming(ctx, service)
+	fmt.Scanln(&input)
+	//doRequestResponseWithTimeout(ctx, service)
 }
 
 func doRequestResponse(ctx context.Context, service proto.AppServiceClient) {

@@ -14,10 +14,12 @@ import (
 )
 
 type appServiceImpl struct {
+	counter int
 	proto.UnimplementedAppServiceServer
 }
 
 func (asi *appServiceImpl) Add(ctx context.Context, req *proto.AddRequest) (*proto.AddResponse, error) {
+	asi.counter++
 	time.Sleep(1 * time.Second)
 	x := req.GetX()
 	y := req.GetY()
@@ -36,6 +38,7 @@ func (asi *appServiceImpl) Add(ctx context.Context, req *proto.AddRequest) (*pro
 }
 
 func (asi *appServiceImpl) GeneratePrimes(req *proto.PrimeRequest, serverStream proto.AppService_GeneratePrimesServer) error {
+	asi.counter++
 	start := req.GetStart()
 	end := req.GetEnd()
 	for no := start; no <= end; no++ {
@@ -64,6 +67,7 @@ func isPrime(no int32) bool {
 }
 
 func (asi *appServiceImpl) CalculateAverage(serverStream proto.AppService_CalculateAverageServer) error {
+	asi.counter++
 	sum := int32(0)
 	count := int32(0)
 	for {
@@ -88,6 +92,7 @@ func (asi *appServiceImpl) CalculateAverage(serverStream proto.AppService_Calcul
 }
 
 func (asi *appServiceImpl) Greet(stream proto.AppService_GreetServer) error {
+	asi.counter++
 	for {
 		req, err := stream.Recv()
 		if err == io.EOF {
@@ -111,6 +116,13 @@ func (asi *appServiceImpl) Greet(stream proto.AppService_GreetServer) error {
 
 func main() {
 	asi := &appServiceImpl{}
+	go func() {
+		tick := time.Tick(1 * time.Second)
+		for {
+			<-tick
+			fmt.Printf("Counter : %d\n", asi.counter)
+		}
+	}()
 	listener, err := net.Listen("tcp", ":50051")
 	if err != nil {
 		log.Fatalln(err)
