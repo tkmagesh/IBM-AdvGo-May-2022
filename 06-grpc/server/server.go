@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"errors"
 	"fmt"
 	"grpc-demo/proto"
 	"io"
@@ -17,15 +18,21 @@ type appServiceImpl struct {
 }
 
 func (asi *appServiceImpl) Add(ctx context.Context, req *proto.AddRequest) (*proto.AddResponse, error) {
+	time.Sleep(1 * time.Second)
 	x := req.GetX()
 	y := req.GetY()
-
-	result := x + y
-	fmt.Printf("Received X = %d, Y = %d and returning Result = %d\n", x, y, result)
-	res := &proto.AddResponse{
-		Result: result,
+	select {
+	case <-ctx.Done():
+		fmt.Println("Unable to send the response within the given time")
+		return nil, errors.New("timeout occured")
+	default:
+		result := x + y
+		fmt.Printf("Received X = %d, Y = %d and returning Result = %d\n", x, y, result)
+		res := &proto.AddResponse{
+			Result: result,
+		}
+		return res, nil
 	}
-	return res, nil
 }
 
 func (asi *appServiceImpl) GeneratePrimes(req *proto.PrimeRequest, serverStream proto.AppService_GeneratePrimesServer) error {
