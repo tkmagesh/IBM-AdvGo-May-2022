@@ -130,3 +130,14 @@ Http Services
         Database connectivity
 
     Web Frameworks
+
+Testing
+go test ./... -v
+
+Benchmark
+    go test -bench=. -benchmem -benchtime=10s
+    
+Code Coverage
+    go test ./... --cover
+    go test ./... -coverprofile=coverage.out
+    go tool cover -html=coverage.out
